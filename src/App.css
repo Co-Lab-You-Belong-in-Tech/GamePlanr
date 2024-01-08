@@ -1,0 +1,11 @@
+.btn-tertiary {
+  background-color: #d9d9d9 !important;
+  display: block;
+  padding: 10px 100px;
+  margin: 20px;
+  border-radius: 50px;
+}
+
+.bg-body-tertiary {
+  background-color: #d9d9d9 !important;
+}
