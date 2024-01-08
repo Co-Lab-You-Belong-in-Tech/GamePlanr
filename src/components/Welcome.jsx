@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { SignUp, SignIn } from "../helpers/Auth";
 
 const Welcome = () => {
   return (
@@ -17,10 +18,10 @@ const Welcome = () => {
           <p className="bg-body-tertiary mx-5">Headline text...</p>
         </div>
         <div className="col-12" style={{ height: "20vh" }}>
-          <Link to="/register" className="btn btn-tertiary">
+          <Link to="/register" className="btn btn-tertiary" onClick={ SignUp }>
             Register
           </Link>
-          <Link to="/sign-in" className="btn btn-tertiary">
+          <Link to="/sign-in" className="btn btn-tertiary" onClick={ SignIn }>
             Sign In
           </Link>
         </div>
