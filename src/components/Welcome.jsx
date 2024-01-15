@@ -25,9 +25,9 @@ const Welcome = () => {
           </Link>
         </div>
         <div className="col-12" style={{ height: "fit-content" }}>
-          <p className="m-4 py-3 bg-body-tertiary">
+          <Link to="/" className="m-4 py-3 bg-body-tertiary d-block" style={{color: "black", textDecoration: "none"}}>
             Acceptance of Terms and Conditions / Privacy Policy Message?
-          </p>
+          </Link>
         </div>
       </div>
     </div>
