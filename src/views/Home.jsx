@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import handwave from "../assets/HandWave.png";
 import BottomNav from "../components/BottomNav";
-import safarishare from "../assets/SafarishareIcon.png";
+import safarishare from "../assets/SafariShareIcon.png";
 import Navbar from "../components/Navbar";
 
 const Home = () => {
