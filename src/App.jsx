@@ -1,15 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Welcome from "./components/Welcome";
-import SignIn from "./components/SignIn";
-import Register from "./components/Register";
-import Home from "./components/Home";
-import JoinTeam from "./components/JoinTeam";
-import CreateTeam from "./components/CreateTeam";
-import Team from "./components/Team";
-import Games from "./components/Games";
-import ScheduleGame from "./components/ScheduleGame";
-import Profile from "./components/Profile";
-import Notifications from "./components/Notifications";
+import Welcome from "./views/Welcome";
+import SignIn from "./views/SignIn";
+import Register from "./views/Register";
+import Home from "./views/Home";
+import JoinTeam from "./views/JoinTeam";
+import CreateTeam from "./views/CreateTeam";
+import Team from "./views/Team";
+import Games from "./views/Games";
+import ScheduleGame from "./views/ScheduleGame";
+import Profile from "./views/Profile";
+import Notifications from "./views/Notifications";
 import "./App.css";
 
 function App() {
