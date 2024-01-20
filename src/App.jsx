@@ -10,26 +10,29 @@ import Games from "./views/Games";
 import ScheduleGame from "./views/ScheduleGame";
 import Profile from "./views/Profile";
 import Notifications from "./views/Notifications";
+import UserProfileProvider from "./providers/UserProfileProvider";
 import "./App.css";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Welcome />}/>
-          <Route path="sign-in" element={<SignIn />}/>
-          <Route path="register" element={<Register />}/>
-          <Route path="home" element={<Home />}/>
-          <Route path="join-team" element={<JoinTeam />}/>
-          <Route path="create-team" element={<CreateTeam />}/>
-          <Route path="team" element={<Team />}/>
-          <Route path="upcoming-games" element={<Games />}/>
-          <Route path="schedule-game" element={<ScheduleGame />}/>
-          <Route path="profile" element={<Profile />}></Route>
-          <Route path="notifications" element={<Notifications />}/>
-        </Routes>
-      </BrowserRouter>
+      <UserProfileProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Welcome />}/>
+            <Route path="sign-in" element={<SignIn />}/>
+            <Route path="register" element={<Register />}/>
+            <Route path="home" element={<Home />}/>
+            <Route path="join-team" element={<JoinTeam />}/>
+            <Route path="create-team" element={<CreateTeam />}/>
+            <Route path="team" element={<Team />}/>
+            <Route path="upcoming-games" element={<Games />}/>
+            <Route path="schedule-game" element={<ScheduleGame />}/>
+            <Route path="profile" element={<Profile />}></Route>
+            <Route path="notifications" element={<Notifications />}/>
+          </Routes>
+        </BrowserRouter>
+      </UserProfileProvider>
     </>
   );
 }

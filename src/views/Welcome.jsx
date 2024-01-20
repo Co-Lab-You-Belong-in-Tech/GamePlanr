@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { SignUp, SignIn } from "../helpers/Auth";
+import { signIn, signUp } from "../services/UserProfileService";
+import { useUserProfile } from "../context/UserProfileContext";
 import Navbar from "../components/Navbar";
 import googleIconImage from "../assets/Left-icon-wrapper.png";
 import image1 from "../assets/Images.png";
@@ -10,6 +11,16 @@ import insta from "../assets/insta.png";
 import FB from "../assets/FB.png";
 
 const Welcome = () => {
+  const { updateUserProfile } = useUserProfile();
+
+  const handleSignUp = async () => {
+    await signUp(updateUserProfile);
+  };
+
+  const handleSignIn = async () => {
+    await signIn(updateUserProfile);
+  };
+
   return (
     <>
       <header className="container">
@@ -29,7 +40,7 @@ const Welcome = () => {
             <Link
               to="/register"
               className="btn btn-outline-secondary"
-              onClick={SignUp}
+              onClick={handleSignUp}
             >
               <img src={googleIconImage} alt="Google Icon" className="mb-1" />{" "}
               Sign up with Google
@@ -39,7 +50,7 @@ const Welcome = () => {
               <Link
                 to="/sign-in"
                 style={{ textDecoration: "none" }}
-                onClick={SignIn}
+                onClick={handleSignIn}
               >
                 Log In
               </Link>
@@ -120,7 +131,7 @@ const Welcome = () => {
             <Link
               to="/register"
               className="btn btn-outline-secondary althover mb-4"
-              onClick={SignUp}
+              onClick={handleSignUp}
             >
               <img src={googleIconImage} alt="Google Icon" className="mb-1" />{" "}
               Sign up with Google
@@ -130,7 +141,7 @@ const Welcome = () => {
               <Link
                 to="/sign-in"
                 style={{ textDecoration: "none" }}
-                onClick={SignIn}
+                onClick={handleSignIn}
               >
                 Log In
               </Link>
