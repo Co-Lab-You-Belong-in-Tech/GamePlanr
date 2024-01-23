@@ -132,8 +132,44 @@ footer .welcome a {
   outline: none; 
 }
 
+.react-datepicker-wrapper {
+  display: block;
+  padding: 0;
+  border: 0;
+}
 
+.btn-info {
+  border-radius: 3px;
+  color: white;
+  background-color: #717171;
+  --bs-btn-color: white;
+  --bs-btn-bg: #717171;
+  --bs-btn-border-color: #717171;
+  --bs-btn-hover-color: white;
+  --bs-btn-hover-bg: #717171;
+  --bs-btn-hover-border-color: #717171;
+  --bs-btn-focus-shadow-rgb: 11,172,204;
+  --bs-btn-active-color: white;
+  --bs-btn-active-bg: #717171;
+  --bs-btn-active-border-color: transparent;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
 
+.btn-info:hover {
+  color: white;
+  background-color: #717171;
+}
+
+.btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+    color: var(--bs-btn-active-color);
+    background-color: #E5FF9C;
+}
+
+.form-control {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+}
 
 @media only screen and (max-width: 600px) {
   .fs-1 {
@@ -145,4 +181,17 @@ footer .welcome a {
   .fs-3 {
     font-size: 20px !important;
   }
+}
+
+@media only screen and (max-width: 420px) {
+  .btn-outline-secondary {
+  font-weight: 500;
+  color: black;
+  display: block;
+  padding: 10px 10px;
+  margin: 5px;
+  border-radius: 50px;
+  border-width: 2px;
+  border-color: #5F6367;
+}
 }

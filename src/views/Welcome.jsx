@@ -29,14 +29,14 @@ const Welcome = () => {
           className="text-center row mx-auto"
           style={{ height: "70vh", width: "100%" }}
         >
-          <div className="col-12" style={{ height: "20vh" }}>
+          <div className="col-12">
             <h1 className="py-3 m-4 fw-bold fs-1">Welcome to GamePlanr</h1>
             <p className="mx-4">
               play smarter, not harder, Enhance your soccer tham management,
               effortlessly organize, and stay connected with your teammates.
             </p>
           </div>
-          <div className="col-12" style={{ height: "10vh" }}>
+          <div className="col-12">
             <Link
               to="/register"
               className="btn btn-outline-secondary"
@@ -72,7 +72,10 @@ const Welcome = () => {
         </div>
       </header>
 
-      <main className="container-fluid" style={{ backgroundColor: "#E5FF9C" }}>
+      <main
+        className="container-fluid mt-5"
+        style={{ backgroundColor: "#E5FF9C" }}
+      >
         <h1 className="py-3 fw-bold fs-2 ms-4 text-center">
           Explore why teams prefer using GamePlanr to organize their soccer
           games
@@ -118,7 +121,7 @@ const Welcome = () => {
           <div className="col col-md-5">
             <img src={image3} alt="Effortless Team Creation Image" />
           </div>
-          <div className="col col-md-3">
+          <div className="col col-md-3 p-0">
             <h2 className="fw-bold fs-3">Seamless Communication</h2>
             <p>
               Effortlessly inform, track attendance, and coordinate your team

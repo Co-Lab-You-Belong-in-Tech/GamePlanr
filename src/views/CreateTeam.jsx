@@ -158,6 +158,7 @@ const CreateTeam = () => {
                   <input
                     type="text"
                     className="form-control"
+                    value={teamName}
                     onChange={(event) => setTeamName(event.target.value)}
                   />
                 </div>
@@ -168,6 +169,7 @@ const CreateTeam = () => {
                   <textarea
                     className="form-control"
                     id="teamDescTextarea"
+                    value={teamDesc}
                     onChange={(event) => setTeamDesc(event.target.value)}
                     rows="3"
                   ></textarea>
