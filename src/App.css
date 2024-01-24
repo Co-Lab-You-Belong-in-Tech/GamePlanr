@@ -107,6 +107,7 @@ footer .welcome a {
 .icon-container .background-icon {
   display: block; 
 }
+
 .icon-container .edit-icon {
   position: absolute;
   margin: 0 7px 7px 0;
@@ -169,6 +170,15 @@ footer .welcome a {
   border-style: solid;
   border-color: black;
   border-width: 1px;
+}
+
+.team-logo {
+  position: absolute; /* Position the image absolutely */
+  top: -15px; /* Adjust this value to let the image hang off the top edge */
+  left: 10px; /* Adjust this value as needed, to position the image from the left edge */
+  width: 50px !important; /* Adjust as needed */
+  height: auto; /* Maintain aspect ratio */
+  z-index: 10; /* Ensure the image is above other elements */
 }
 
 @media only screen and (max-width: 600px) {

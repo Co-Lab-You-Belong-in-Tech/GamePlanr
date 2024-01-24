@@ -35,11 +35,11 @@ const CreateTeam = () => {
     } 
   };
 
-  const handleBack = () => {
-    if (currentStep === steps.INVITE_FRIENDS) {
-      setCurrentStep(steps.START);
-    }
-  };
+  // const handleBack = () => {
+  //   if (currentStep === steps.INVITE_FRIENDS) {
+  //     setCurrentStep(steps.START);
+  //   }
+  // };
 
   const edit = (editState) => {
     setChooseIcon(editState)
@@ -66,7 +66,7 @@ const CreateTeam = () => {
                     onClick={() => edit(false)}
                   />
                   <p className="">Choose Team Icon</p>
-                  <p></p>
+                  <p className="ms-4 ps-1"></p>
                 </div>
                 <h3 className="fs-3 fw-bold">Show off your team spirit!</h3>
                 <p className="">
@@ -77,6 +77,7 @@ const CreateTeam = () => {
                     <div className="col m-2">
                       <img
                         src={teamPhoto}
+                        className="img-btn"
                         alt="icon1"
                         onClick={() => handleIconPick(teamPhoto)}
                       />
@@ -84,6 +85,7 @@ const CreateTeam = () => {
                     <div className="col m-2">
                       <img
                         src={redIcon}
+                        className="img-btn"
                         alt="icon2"
                         onClick={() => handleIconPick(redIcon)}
                       />
@@ -91,6 +93,7 @@ const CreateTeam = () => {
                     <div className="col m-2">
                       <img
                         src={blueIcon}
+                        className="img-btn"
                         alt="icon3"
                         onClick={() => handleIconPick(blueIcon)}
                       />
@@ -98,6 +101,7 @@ const CreateTeam = () => {
                     <div className="col m-2">
                       <img
                         src={orangeIcon}
+                        className="img-btn"
                         alt="icon4"
                         onClick={() => handleIconPick(orangeIcon)}
                       />
@@ -105,6 +109,7 @@ const CreateTeam = () => {
                     <div className="col m-2">
                       <img
                         src={yellowIcon}
+                        className="img-btn"
                         alt="icon5"
                         onClick={() => handleIconPick(yellowIcon)}
                       />
@@ -112,6 +117,7 @@ const CreateTeam = () => {
                     <div className="col m-2">
                       <img
                         src={greenIcon}
+                        className="img-btn"
                         alt="icon6"
                         onClick={() => handleIconPick(greenIcon)}
                       />
@@ -122,17 +128,15 @@ const CreateTeam = () => {
             ) : (
               <div className="gameplanr-container">
                 <div className="d-flex justify-content-between">
-                  <img
-                    src={backButton}
-                    alt=""
-                    style={{ height: "20px" }}
-                    className="img-btn"
-                    onClick={() => edit(false)}
-                  />
+                  <p className="me-2"></p>
                   <p className="">Create a Team</p>
-                  <button className="close-button mb-3" aria-label="Close">
+                  <Link
+                    to="/home"
+                    className="close-button mb-3 link-underline link-underline-opacity-0"
+                    aria-label="Close"
+                  >
                     &times;
-                  </button>
+                  </Link>
                 </div>
                 <h3 className="fs-3 fw-bold">Let&apos;s get started!</h3>
                 <p className="">
@@ -198,17 +202,15 @@ const CreateTeam = () => {
         return (
           <div className="gameplanr-container">
             <div className="d-flex justify-content-between">
-              <img
-                src={backButton}
-                alt=""
-                style={{ height: "20px" }}
-                className="img-btn"
-                onClick={handleBack}
-              />
+             <p className="me-2"></p>
               <p className="">Invite your Friends</p>
-              <button className="close-button mb-3" aria-label="Close">
+              <Link
+                to="/home"
+                className="close-button mb-3 link-underline link-underline-opacity-0"
+                aria-label="Close"
+              >
                 &times;
-              </button>
+              </Link>
             </div>
             <h3 className="fs-3 fw-bold">
               It&apos;s not a team without your people
