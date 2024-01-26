@@ -49,9 +49,13 @@ const ScheduleGame = () => {
           onClick={goBack}
         />
         <p className="">Schedule a Game</p>
-        <button className="close-button mb-3" aria-label="Close">
+        <Link
+          to="/home"
+          className="close-button mb-3 link-underline link-underline-opacity-0"
+          aria-label="Close"
+        >
           &times;
-        </button>
+        </Link>
       </div>
       <h3 className="fs-3 fw-bold">Time to hit the field!</h3>
       <p className="">schedule your first game and let the fun begin</p>
