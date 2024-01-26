@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { signIn, signUp } from "../services/UserProfileService";
+import { Link, useNavigate } from "react-router-dom";
+import { googleAuthenticate } from "../services/UserProfileService";
 import { useUserProfile } from "../context/UserProfileContext";
 import Navbar from "../components/Navbar";
 import googleIconImage from "../assets/Left-icon-wrapper.png";
@@ -12,14 +12,14 @@ import FB from "../assets/FB.png";
 
 const Welcome = () => {
   const { updateUserProfile } = useUserProfile();
+  const navigate = useNavigate()
 
-  const handleSignUp = async () => {
-    await signUp(updateUserProfile);
-  };
-
-  const handleSignIn = async () => {
-    await signIn(updateUserProfile);
-  };
+  const handleGoogleAuthenticate = async () => {
+    const userProfileDetails = await googleAuthenticate();
+    updateUserProfile(userProfileDetails)
+    console.log("handleGoogleAuthenticate", userProfileDetails)
+    navigate('/home');
+  }
 
   return (
     <>
@@ -40,7 +40,7 @@ const Welcome = () => {
             <Link
               to="/home"
               className="btn btn-outline-secondary mt-0"
-              onClick={handleSignUp}
+              onClick={handleGoogleAuthenticate}
             >
               <img src={googleIconImage} alt="Google Icon" className="mb-1" />{" "}
               Sign up with Google
@@ -63,7 +63,7 @@ const Welcome = () => {
               <Link
                 to="/home"
                 style={{ textDecoration: "none" }}
-                onClick={handleSignIn}
+                onClick={handleGoogleAuthenticate}
               >
                 Log In
               </Link>
@@ -134,7 +134,7 @@ const Welcome = () => {
             <Link
               to="/home"
               className="btn btn-outline-secondary althover mb-4"
-              onClick={handleSignUp}
+              onClick={handleGoogleAuthenticate}
             >
               <img src={googleIconImage} alt="Google Icon" className="mb-1" />{" "}
               Sign up with Google
@@ -144,7 +144,7 @@ const Welcome = () => {
               <Link
                 to="/home"
                 style={{ textDecoration: "none" }}
-                onClick={handleSignIn}
+                onClick={handleGoogleAuthenticate}
               >
                 Log In
               </Link>
