@@ -164,7 +164,7 @@ footer .welcome a {
 }
 
 .btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
-    color: var(--bs-btn-active-color);
+    color: black;
     background-color: #E5FF9C;
 }
 
