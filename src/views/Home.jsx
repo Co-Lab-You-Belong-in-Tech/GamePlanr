@@ -19,9 +19,12 @@ const Home = () => {
   }
   // const currentState = homeState.TEAM_CREATED_GAMES_SCHEDULED
 
-  const [currentState, setCurrentState] = useState(homeState.INITIAL);
+  const [currentState, setCurrentState] = useState(
+    homeState.INITIAL
+  );
   const [responded, setResponded] = useState(false);
   const [going, setGoing] = useState(goingImg);
+  const [numOfPlayers, setNumOfPlayers] = useState(0)
   const handleResponse = (response) => {
     console.log("function called");
     if(responded === false) {
@@ -30,6 +33,7 @@ const Home = () => {
 
     if (response === "going"){
       setGoing(goingGreen);
+      setNumOfPlayers(numOfPlayers + 1)
     }
     if (response === "not going") {
       setGoing(notGoingRed);
@@ -39,6 +43,7 @@ const Home = () => {
   const undoResponse = () => {
     console.log("function called");
     setResponded(false)
+    setNumOfPlayers(0)
   }
 
 
@@ -99,14 +104,14 @@ const Home = () => {
         <header className="container">
           <Navbar />
         </header>
-        <main>
+        <main className="home-main">
           <div className="container text-center">
             <h2 className="fs-2 fw-bold mt-5">
               Welcome, User <img src={handwave} alt="handwave" />
             </h2>
           </div>
 
-          <div className="gameplanr-container action-buttons mt-5">
+          <div className="gameplanr-container action-buttons mt-2">
             <h3 className="fs-3 fw-bold ms-3">Upcoming Game</h3>
             <div
               className="card mb-3 border-0"
@@ -141,12 +146,12 @@ const Home = () => {
                       className="img-btn pb-2 ms-3"
                       onClick={undoResponse}
                     />
-                    <p className="fs-4">0/12 Going</p>
+                    <p className="fs-4">{numOfPlayers}/12 Going</p>
                   </div>
                 ) : (
                   <div className="col-3">
                     <p className="text-primary fs-4 pt-3">You Going?</p>
-                    <p className="fs-4">0/12 Going</p>
+                    <p className="fs-4">{numOfPlayers}/12 Going</p>
                   </div>
                 )}
               </div>

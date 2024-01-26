@@ -183,7 +183,7 @@ const CreateTeam = () => {
                     className="btn btn-primary btn-lg full-width-button"
                     onClick={handleNext}
                   >
-                    Next
+                    Create Team
                   </button>
                 ) : (
                   <button
@@ -191,7 +191,7 @@ const CreateTeam = () => {
                     onClick={handleNext}
                     disabled
                   >
-                    Next
+                    Create Team
                   </button>
                 )}
               </div>
@@ -202,7 +202,7 @@ const CreateTeam = () => {
         return (
           <div className="gameplanr-container">
             <div className="d-flex justify-content-between">
-             <p className="me-2"></p>
+              <p className="me-2"></p>
               <p className="">Invite your Friends</p>
               <Link
                 to="/home"
@@ -221,17 +221,21 @@ const CreateTeam = () => {
             <div className="container text-center my-5">
               <div className="gradient-border">
                 <input
-                  value="THX-341"
-                  className="mx-auto text-center p-5"
+                  value="xxxxxxxxxxxxxxxxxxxx"
+                  className="mx-auto text-center px-5 py-4"
                   readOnly
                 />
               </div>
               <div className="row justify-content-center mt-4">
-                <p className="col-4 fs-4">
+                <p className="col-4 fs-4" style={{ color: "#445b9f" }}>
                   <img src={copyIcon} alt="Copy Code Button" /> Copy Code
                 </p>
-                <p className="col-4 fs-4">
-                  <img src={shareIcon} alt="Share code Button" /> Share Code
+                <p className="col-4 fs-4" style={{ color: "#445b9f" }}>
+                  <img
+                    src={shareIcon}
+                    alt="Share code Button"
+                  />{" "}
+                  Share Code
                 </p>
               </div>
             </div>

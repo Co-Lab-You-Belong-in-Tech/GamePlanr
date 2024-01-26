@@ -8,8 +8,8 @@ import backButton from "../assets/LeftButton.png";
 
 const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
   <button
-    className="form-select form-select-lg"
-    style={{borderColor: "black"}}
+    className="form-select"
+    style={{color: "#595859"}}
     onClick={onClick}
     ref={ref}
   >
@@ -57,7 +57,10 @@ const ScheduleGame = () => {
       <p className="">schedule your first game and let the fun begin</p>
       <form action="" onSubmit={handleSubmit}>
         <label htmlFor="datePickerInput" className="form-label fs-4">
-          Date and Time (Required)
+          Date and Time{" "}
+          <span className="fw-bold" style={{ color: "#595859" }}>
+            (required)
+          </span>
         </label>
         <DatePicker
           selected={startDate}
@@ -68,7 +71,10 @@ const ScheduleGame = () => {
           customInput={<CustomInput />}
         />
         <label htmlFor="durationInput" className="form-label fs-4 mt-2">
-          Duration (required)
+          Duration{" "}
+          <span className="fw-bold" style={{ color: "#595859" }}>
+            (required)
+          </span>
         </label>
         <div
           className="container text-center p-0 justify-content-evenly"
@@ -161,22 +167,32 @@ const ScheduleGame = () => {
         </div>
         <div id="form"></div>
         <label htmlFor="locationInput" className="form-label fs-4 mt-2">
-          Location (required)
+          Location{" "}
+          <span className="fw-bold" style={{ color: "#595859" }}>
+            (required)
+          </span>
         </label>
         <input
           type="text"
           className="form-control"
           id="locationInput"
+          placeholder="Enter location"
+          style={{ color: "#595859" }}
           value={location}
           onChange={(e) => setLocation(e.target.value)}
         />
         <label htmlFor="playersInput" className="form-label fs-4 mt-2">
-          # Players needed (required)
+          # Players needed{" "}
+          <span className="fw-bold" style={{ color: "#595859" }}>
+            (required)
+          </span>
         </label>
         <input
           type="text"
           className="form-control"
           id="playersInput"
+          placeholder="How many players are needed?"
+          style={{ color: "#595859" }}
           value={playersNeeded}
           onChange={(e) => setPlayersNeeded(e.target.value)}
         />
@@ -187,6 +203,8 @@ const ScheduleGame = () => {
           type="text"
           className="form-control"
           id="oppnentInput"
+          placeholder="Who are you playing?"
+          style={{ color: "#595859" }}
           value={opponent}
           onChange={(e) => setOpponent(e.target.value)}
         />
@@ -197,6 +215,8 @@ const ScheduleGame = () => {
           type="text"
           className="form-control"
           id="notesInput"
+          placeholder="Any notes for your team?"
+          style={{ color: "#595859" }}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows="3"
@@ -218,10 +238,7 @@ const ScheduleGame = () => {
           </button>
         )}
         <p className="fs-4 text-center">
-          <Link
-            to="/team"
-            style={{ textDecoration: "none" }}
-          >
+          <Link to="/team" style={{ textDecoration: "none" }}>
             Skip
           </Link>
         </p>

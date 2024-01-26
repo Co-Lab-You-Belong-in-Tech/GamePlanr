@@ -119,9 +119,9 @@ footer .welcome a {
 
 /* invite friends css */
 .gradient-border {
-  padding: 2px; 
-  background-image: linear-gradient(to right, #00B4D8, #89CFF0); 
-  border-radius: 20px; 
+  padding: 3px; 
+  background-image: linear-gradient(to right, #76caf6, #83f5f5); 
+  border-radius: 10px; 
   display: inline-block; 
 }
 
@@ -129,7 +129,9 @@ footer .welcome a {
   width: 100%;
   padding: 10px;
   border: none;
-  border-radius: 18px; 
+  background-color: #eef5ff;
+  border-radius: 8px; 
+  border-width: 15px;
   outline: none; 
 }
 
@@ -168,8 +170,16 @@ footer .welcome a {
 
 .form-control {
   border-style: solid;
-  border-color: black;
-  border-width: 1px;
+  border-color: #717171 !important;
+  border-width: 2px;
+  padding: 10px;
+}
+
+.form-select {
+  border-style: solid;
+  border-color: #717171 !important;
+  border-width: 2px;
+  padding: 10px;
 }
 
 .team-logo {
@@ -179,6 +189,12 @@ footer .welcome a {
   width: 50px !important; /* Adjust as needed */
   height: auto; /* Maintain aspect ratio */
   z-index: 10; /* Ensure the image is above other elements */
+}
+
+@media only screen and (max-height: 700px) {
+  .home-footer{
+    position: relative;
+  }
 }
 
 @media only screen and (max-width: 600px) {

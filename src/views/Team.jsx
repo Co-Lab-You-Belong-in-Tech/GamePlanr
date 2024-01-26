@@ -56,7 +56,7 @@ const Team = () => {
           <div className="gameplanr-container">
             <div className="d-flex justify-content-between">
               <p className="me-"></p>
-              <p className="fs-3 fw-bold">Create a Team</p>
+              <p className="fs-3 fw-bold">Your Team</p>
               <p className="fs-4 me-3 my-auto pb-3">Edit</p>
             </div>
             <div className="container my-3">

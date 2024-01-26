@@ -38,34 +38,34 @@ const Welcome = () => {
           </div>
           <div className="col-12">
             <Link
-              to="/register"
-              className="btn btn-outline-secondary"
+              to="/home"
+              className="btn btn-outline-secondary mt-0"
               onClick={handleSignUp}
             >
               <img src={googleIconImage} alt="Google Icon" className="mb-1" />{" "}
               Sign up with Google
             </Link>
-            <p className="fs-4">
-              Already a member?{" "}
-              <Link
-                to="/sign-in"
-                style={{ textDecoration: "none" }}
-                onClick={handleSignIn}
-              >
-                Log In
+            <p className="fw-normal fs-4">
+              By continuing, you agree to our{" "}
+              <Link to="/" style={{ textDecoration: "none" }}>
+                Terms and conditions
+              </Link>{" "}
+              <br></br>
+              and acknowledge you&apos;ve read our{" "}
+              <Link to="/" style={{ textDecoration: "none" }}>
+                Privacy Policy.
               </Link>
             </p>
           </div>
           <div className="col-12" style={{ height: "fit-content" }}>
-            <p className="fw-normal fs-4">
-              By continuing, you agree to our{" "}
-              <Link to="/" style={{ textDecoration: "none" }}>
-                Terms and conditions and
-              </Link>{" "}
-              <br></br>
-              and acknowledge you&apos;ve read{" "}
-              <Link to="/" style={{ textDecoration: "none" }}>
-                our Privacy Policy.
+            <p className="fs-4">
+              Already a member?{" "}
+              <Link
+                to="/home"
+                style={{ textDecoration: "none" }}
+                onClick={handleSignIn}
+              >
+                Log In
               </Link>
             </p>
           </div>
@@ -132,7 +132,7 @@ const Welcome = () => {
         <div className="row text-center mt-4">
           <div className="col-12 col-md-8 mx-auto mb-3">
             <Link
-              to="/register"
+              to="/home"
               className="btn btn-outline-secondary althover mb-4"
               onClick={handleSignUp}
             >
@@ -142,7 +142,7 @@ const Welcome = () => {
             <p className="fs-4">
               Already a member?{" "}
               <Link
-                to="/sign-in"
+                to="/home"
                 style={{ textDecoration: "none" }}
                 onClick={handleSignIn}
               >
