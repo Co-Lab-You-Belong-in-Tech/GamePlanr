@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useUserProfile } from "../context/UserProfileContext";
+import { createTeam } from '../services/TeamService';
+import { useTeam } from '../context/TeamContext';
 import editIcon from "../assets/edit-button.png";
 import teamPhoto from "../assets/TeamIcon.png";
 import redIcon from "../assets/TeamIconRed.png";
@@ -18,20 +21,52 @@ const CreateTeam = () => {
     INVITE_FRIENDS: "invite_friends",
   };
 
+
   const [currentStep, setCurrentStep] = useState(steps.START);
-
   const [chooseIcon, setChooseIcon] = useState(false);
-
   const [chosenIcon, setChosenIcon] = useState(teamPhoto);
-
-
   const [teamName, setTeamName] = useState("");
-
   const [teamDesc, setTeamDesc] = useState("");
+  const [teamInfo, setTeamInfo] = useState(null);
+  const { userProfile } = useUserProfile();
+  const { updateTeam } = useTeam();
 
-  const handleNext = () => {
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     // Fetch team info only if it's not available
+  //     if (!teamInfo && userProfile?.userID) {
+  //       try {
+  //         const newTeamInfo = await createTeam(userProfile.userID, teamName, teamDesc, chosenIcon);
+  //         setTeamInfo(newTeamInfo);
+  //         setCurrentStep(steps.INVITE_FRIENDS);
+  //         // updateTeam(newTeamInfo)
+  //       } catch (error) {
+  //         console.error('Error creating team:', error);
+  //       }
+  //     }
+  //   };
+
+  //   fetchData();
+
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [userProfile, teamName, teamDesc, chosenIcon, teamInfo]);
+  
+  console.log("User Profile from Context:", userProfile, userProfile.userID);
+  
+  // console.log("Team Profile from Context:", team);
+
+
+  const handleNext = async () => {
     if (currentStep === steps.START) {
-      setCurrentStep(steps.INVITE_FRIENDS);
+      const teamInfo = await handleCreateTeam(userProfile.userID);
+      if (teamInfo) {
+        // updateTeam(teamInfo)
+        setTeamInfo(teamInfo)
+        console.log('teamInfo', teamInfo)
+        setCurrentStep(steps.INVITE_FRIENDS);
+      } else {
+        console.error('Error creating team')
+      }
     } 
   };
 
@@ -48,6 +83,16 @@ const CreateTeam = () => {
   const handleIconPick = (icon) => {
     setChosenIcon(icon)
     setChooseIcon(false)
+  }
+
+  const handleCreateTeam = async (teamCaptain) => {
+    try {
+      const newTeamInfo = await createTeam(teamCaptain, teamName, teamDesc, chosenIcon);
+      console.log('NewTeamInfo: ', newTeamInfo)
+      return newTeamInfo
+    } catch (error) {
+      console.error('Error creating team:', error);
+    }
   }
 
   const renderStep = () => {
@@ -221,7 +266,7 @@ const CreateTeam = () => {
             <div className="container text-center my-5">
               <div className="gradient-border">
                 <input
-                  value="xxxxxxxxxxxxxxxxxxxx"
+                  value={ teamInfo.Team_Code}
                   className="mx-auto text-center px-5 py-4"
                   readOnly
                 />

@@ -5,11 +5,12 @@ import {
   doc,
   setDoc,
   updateDoc,
+  getDoc,
   getDocs,
   query,
   where,
 } from 'firebase/firestore';
-import { useUserProfile } from '../context/UserContext';
+// import { useUserProfile } from '../context/UserContext';
 
 const generateUniqueTeamCode = async () => {
   // Generate a random team code (3 uppercase letters + 3 numbers)
@@ -27,7 +28,7 @@ const generateUniqueTeamCode = async () => {
   const teamsQuery = query(teamsCollectionRef, where('Team_Code', '==', teamCode));
   const teamsSnapshot = await getDocs(teamsQuery);
 
-  // If the code is not unique, generate a new one recursively
+  // If the code is not unique, generate a new one
   if (!teamsSnapshot.empty) {
     return generateUniqueTeamCode();
   }
@@ -35,45 +36,77 @@ const generateUniqueTeamCode = async () => {
   return teamCode;
 };
 
-const createTeam = async (teamName, teamDescription, teamIcon) => {
+const createTeam = async (teamCaptain, teamName, teamDescription, chosenIcon) => {
   try {
-    const userProfile = useUserProfile();
 
     // Generate a unique team code
     const teamCode = await generateUniqueTeamCode();
 
     // Create a new team document with the provided values
     const teamsCollectionRef = collection(db, 'teams');
-    const newTeamDocRef = await addDoc(teamsCollectionRef, {
+    const newTeamDocRef = doc(teamsCollectionRef);
+    await setDoc(newTeamDocRef, {
       Team_Name: teamName,
       Team_Description: teamDescription,
-      Team_Icon: teamIcon,
-      Team_Captain: userProfile.userProfile.uid,
+      Team_Icon: chosenIcon,
+      Team_Captain: teamCaptain,
       Team_Code: teamCode,
+      Games: [],
     });
 
-    // Create the 'members' subcollection and add Team_Captain to it
-    const membersCollectionRef = collection(newTeamDocRef, 'members');
-    await addDoc(membersCollectionRef, { uid: userProfile.userProfile.uid });
+    // Create 'Members' subcollection for the new team
+    const membersCollectionRef = collection(newTeamDocRef, 'Members');
+    await addDoc(membersCollectionRef, { uid: teamCaptain });
 
-    return newTeamDocRef.id; // Return the ID of the newly created team
+    // Get the newly created team document including its subcollection
+    const newTeamDocSnapshot = await getDoc(newTeamDocRef);
+    const newTeamData = newTeamDocSnapshot.data();
+
+    const TeamInfo = { TeamID: newTeamDocRef.id, ...newTeamData };
+
+    return TeamInfo
   } catch (error) {
     console.error('Error creating team:', error);
     throw error;
   }
 };
 
-const addPlayerToTeam = async (teamId, playerId) => {
-  try {
-    // Add the player to the 'members' subcollection of the team
-    const membersCollectionRef = collection(db, 'teams', teamId, 'members');
-    await addDoc(membersCollectionRef, { uid: playerId });
+// const addPlayerToTeam = async (teamId, playerId) => {
+//   try {
+//     // Add the player to the 'Members' subcollection of the team
+//     const teamDocRef = doc(db, 'teams', teamId, 'Members');
+//     await addDoc(teamDocRef, { uid: playerId });
 
-    return true; // Indicate success
+//     return true;
+//   } catch (error) {
+//     console.error('Error adding player to team:', error);
+//     throw error;
+//   }
+// };
+
+
+// Function to get all members of a team
+const getTeamMembers = async (teamId) => {
+  try {
+    // Reference the 'Members' subcollection of the team
+    const membersCollectionRef = collection(db, 'teams', teamId, 'Members');
+    
+    // Get all documents from the 'Members' subcollection
+    const membersQuerySnapshot = await getDocs(membersCollectionRef);
+    
+    // Iterate through each document in the 'Members' subcollection
+    const members = [];
+    membersQuerySnapshot.forEach((doc) => {
+      // Retrieve the data from each document
+      const memberData = doc.data();
+      members.push(memberData);
+    });
+    
+    return members;
   } catch (error) {
-    console.error('Error adding player to team:', error);
+    console.error('Error getting team members:', error);
     throw error;
   }
 };
 
-export { createTeam, addPlayerToTeam };
+export { createTeam, getTeamMembers };

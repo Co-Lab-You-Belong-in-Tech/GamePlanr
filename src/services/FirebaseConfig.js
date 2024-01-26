@@ -2,13 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
-// If needed: Import other items from Firebase:
-// import {...} from "firebase/database";
-// import {...} from "firebase/firestore";
-// import {...} from "firebase/functions";
-// import {...} from "firebase/storage";
-
-
+// Firebase Connection Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBSCQrAIvVRZvxo3IFtx7BlehIqVQ4VE3g",
   authDomain: "sportsstandins.firebaseapp.com",
