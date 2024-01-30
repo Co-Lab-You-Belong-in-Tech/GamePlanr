@@ -23,15 +23,10 @@ export const getUserProfileDetails = async (email) => {
 export const createOrRetrieveUser = async (result) => {
   try {
     const { displayName, email, photoURL } = result.user;
-    // Check to see if user (email) exists in our database or not
+
     let userProfile = await getUserProfileDetails(email);
 
-    // If user is found in the database, pull info in
-    if (userProfile) {
-      alert("Welcome back, signing in...");
-    } else {
-      alert("New User, creating account...");
-      // Default values for the rest of the profile info
+    if (!userProfile) {
       const defaultValues = {
         Skill_Level: "",
         Location: "",
@@ -44,7 +39,6 @@ export const createOrRetrieveUser = async (result) => {
         Notifications: []
       };
 
-      // Create entry for a new user profile using info pulled from Google as well as default values above
       const userCollectionRef = await addDoc(collection(db, "users"), {
         displayName: displayName || "",
         email: email || "",
@@ -52,24 +46,19 @@ export const createOrRetrieveUser = async (result) => {
         ...defaultValues,
       });
 
-      // Now that new user profile data has been created, pull in all profile info from the database
       userProfile = await getUserProfileDetails(email);
-      if (userProfile) {
-        alert("User profile created successfully, signing in...");
-      } else {
-        alert("Failed to retrieve user profile after sign-up.");
-      }
     }
 
     return userProfile;
   } catch (error) {
-    alert("Authentication error: ", error);
+    console.error("Authentication error: ", error);
     throw error;
   }
 };
 
 
-// SignUpOrSignIn function to be used by SignUp and SignIn functions
+
+// GoogleAuthentication function to log user in or sign them up and then sign in
 export const googleAuthenticate = async () => {
   try {
     // Get Google Sign In via signInWithPopup

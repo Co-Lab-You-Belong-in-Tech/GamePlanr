@@ -28,28 +28,10 @@ const CreateTeam = () => {
   const [teamName, setTeamName] = useState("");
   const [teamDesc, setTeamDesc] = useState("");
   const [teamInfo, setTeamInfo] = useState(null);
+  const [copied, setCopied] = useState(false)
   const { userProfile } = useUserProfile();
   const { updateTeam } = useTeam();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     // Fetch team info only if it's not available
-  //     if (!teamInfo && userProfile?.userID) {
-  //       try {
-  //         const newTeamInfo = await createTeam(userProfile.userID, teamName, teamDesc, chosenIcon);
-  //         setTeamInfo(newTeamInfo);
-  //         setCurrentStep(steps.INVITE_FRIENDS);
-  //         // updateTeam(newTeamInfo)
-  //       } catch (error) {
-  //         console.error('Error creating team:', error);
-  //       }
-  //     }
-  //   };
-
-  //   fetchData();
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [userProfile, teamName, teamDesc, chosenIcon, teamInfo]);
   
   console.log("User Profile from Context:", userProfile, userProfile.userID);
   
@@ -60,9 +42,8 @@ const CreateTeam = () => {
     if (currentStep === steps.START) {
       const teamInfo = await handleCreateTeam(userProfile.userID);
       if (teamInfo) {
-        // updateTeam(teamInfo)
+        updateTeam(teamInfo)
         setTeamInfo(teamInfo)
-        console.log('teamInfo', teamInfo)
         setCurrentStep(steps.INVITE_FRIENDS);
       } else {
         console.error('Error creating team')
@@ -94,6 +75,17 @@ const CreateTeam = () => {
       console.error('Error creating team:', error);
     }
   }
+
+  const handleCopyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(teamInfo.Team_Code);
+      setCopied(true);
+      // Show 'Copied' for 2 seconds and then reset back to 'Copy Code' only
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error('Error copying code:', error);
+    }
+  };
 
   const renderStep = () => {
     switch (currentStep) {
@@ -266,15 +258,18 @@ const CreateTeam = () => {
             <div className="container text-center my-5">
               <div className="gradient-border">
                 <input
-                  value={ teamInfo.Team_Code}
+                  value={teamInfo.Team_Code}
                   className="mx-auto text-center px-5 py-4"
                   readOnly
                 />
               </div>
               <div className="row justify-content-center mt-4">
-                <p className="col-4 fs-4" style={{ color: "#445b9f" }}>
-                  <img src={copyIcon} alt="Copy Code Button" /> Copy Code
-                </p>
+                <div className="col-4 fs-4" style={{ color: "#445b9f" }}>
+                  <button onClick={handleCopyCode} style={{ border: "none", background: "none", cursor: "pointer" }}>
+                    <img src={copyIcon} alt="Copy Code Button" /> Copy Code
+                  </button>
+                  {copied && <span style={{ marginLeft: "5px" }}>Copied!</span>} {/* Display "Copied!" when copied state is true */}
+                </div>
                 <p className="col-4 fs-4" style={{ color: "#445b9f" }}>
                   <img
                     src={shareIcon}

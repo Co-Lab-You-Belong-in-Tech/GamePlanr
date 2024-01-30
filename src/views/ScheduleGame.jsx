@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { createGameInDatabase } from "../services/GamesService";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import backButton from "../assets/LeftButton.png";
+import { useTeam } from '../context/TeamContext';
 
 const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
   <button
@@ -23,9 +24,10 @@ const ScheduleGame = () => {
   const [startDate, setStartDate] = useState(null);
   const [duration, setDuration] = useState("");
   const [location, setLocation] = useState("");
-  const [playersNeeded, setPlayersNeeded] = useState("");
+  const [playersNeeded, setPlayersNeeded] = useState(11);
   const [opponent, setOpponent] = useState("");
   const [notes, setNotes] = useState("");
+  const { team } = useTeam();
 
   const navigate = useNavigate();
 
@@ -33,10 +35,31 @@ const ScheduleGame = () => {
     navigate(-1);
   }
 
+  const handleScheduleGame = async () => {
+    try {
+      // Create game object with form data
+      const gameData = {
+        TeamCode: team.Team_Code,
+        startDate,
+        duration,
+        location,
+        playersNeeded,
+        opponent,
+        notes,
+      };
+      await createGameInDatabase(gameData);
+      console.log('Game scheduled successfully');
+    } catch (error) {
+      console.error('Error scheduling game:', error);
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(duration,location,playersNeeded,opponent,notes)
   }
+
+
 
   return (
     <div className="gameplanr-container">
@@ -186,19 +209,19 @@ const ScheduleGame = () => {
           onChange={(e) => setLocation(e.target.value)}
         />
         <label htmlFor="playersInput" className="form-label fs-4 mt-2">
-          # Players needed{" "}
+          # Players needed{11}
           <span className="fw-bold" style={{ color: "#595859" }}>
             (required)
           </span>
         </label>
         <input
-          type="text"
+          type="number"
           className="form-control"
           id="playersInput"
           placeholder="How many players are needed?"
           style={{ color: "#595859" }}
           value={playersNeeded}
-          onChange={(e) => setPlayersNeeded(e.target.value)}
+          onChange={(e) => setPlayersNeeded(parseInt(e.target.value))}
         />
         <label htmlFor="oppnentInput" className="form-label fs-4 mt-2">
           Opponent
@@ -229,6 +252,7 @@ const ScheduleGame = () => {
           <button
             className="btn btn-primary my-4 btn-lg full-width-button"
             type="submit"
+            onClick={ handleScheduleGame }
           >
             Next
           </button>
