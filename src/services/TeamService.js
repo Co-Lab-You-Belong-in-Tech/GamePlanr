@@ -86,27 +86,42 @@ const createTeam = async (teamCaptain, teamName, teamDescription, chosenIcon) =>
 
 
 // Function to get all members of a team
-const getTeamMembers = async (teamId) => {
+const getTeamMembers = async (teamCode) => {
   try {
-    // Reference the 'Members' subcollection of the team
-    const membersCollectionRef = collection(db, 'teams', teamId, 'Members');
+    // Query the 'teams' collection for the team document with the provided TeamCode
+    const teamQuerySnapshot = await getDocs(
+      query(collection(db, 'teams').where('Team_Code', '==', teamCode).limit(1))
+    );
     
-    // Get all documents from the 'Members' subcollection
-    const membersQuerySnapshot = await getDocs(membersCollectionRef);
-    
-    // Iterate through each document in the 'Members' subcollection
-    const members = [];
-    membersQuerySnapshot.forEach((doc) => {
-      // Retrieve the data from each document
-      const memberData = doc.data();
-      members.push(memberData);
-    });
-    
-    return members;
+    // Check if the team document exists
+    if (!teamQuerySnapshot.empty) {
+      const teamDoc = teamQuerySnapshot.docs[0];
+      
+      // Reference the 'Members' subcollection of the team document
+      const membersCollectionRef = collection(teamDoc.ref, 'Members');
+      
+      // Get all documents from the 'Members' subcollection
+      const membersQuerySnapshot = await getDocs(membersCollectionRef);
+      
+      // Iterate through each document in the 'Members' subcollection
+      const members = [];
+      membersQuerySnapshot.forEach((doc) => {
+        // Retrieve the data from each document
+        const memberData = doc.data();
+        members.push(memberData);
+      });
+      
+      return members;
+    } else {
+      console.error('Team document not found for TeamCode:', teamCode);
+      return [];
+    }
   } catch (error) {
     console.error('Error getting team members:', error);
     throw error;
   }
 };
+
+
 
 export { createTeam, getTeamMembers };
