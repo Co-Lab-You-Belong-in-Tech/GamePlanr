@@ -107,7 +107,7 @@ const Home = () => {
         <main className="home-main">
           <div className="container text-center">
             <h2 className="fs-2 fw-bold mt-5">
-              Welcome, User <img src={handwave} alt="handwave" />
+              Hey there <img src={handwave} alt="handwave" />
             </h2>
           </div>
 

@@ -209,7 +209,7 @@ const ScheduleGame = () => {
           onChange={(e) => setLocation(e.target.value)}
         />
         <label htmlFor="playersInput" className="form-label fs-4 mt-2">
-          # Players needed{11}
+          # Players needed{" "}
           <span className="fw-bold" style={{ color: "#595859" }}>
             (required)
           </span>
