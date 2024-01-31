@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import handwave from "../assets/HandWave.png";
 import BottomNav from "../components/BottomNav";
 import safarishare from "../assets/SafariShareIcon.png";
@@ -9,7 +9,10 @@ import notGoing from "../assets/notGoing.png";
 import notGoingRed from "../assets/NotGoingRed.png";
 import goingGreen from "../assets/AttendingGreen.png";
 import empty from "../assets/Empty.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { onSnapshot, doc } from 'firebase/firestore';
+import { db } from "../services/FirebaseConfig";
+import { useGames } from "../context/GamesContext";
 
 const Home = () => {
   const homeState = {
@@ -25,6 +28,28 @@ const Home = () => {
   const [responded, setResponded] = useState(false);
   const [going, setGoing] = useState(goingImg);
   const [numOfPlayers, setNumOfPlayers] = useState(0)
+  const [numOfPlayersAttending, setNumOfPlayersAttending] = useState(0);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const state = queryParams.get("state");
+  const { games } = useGames();
+
+  // RealTime Listener to track attendance by how many players have responded 'Going'
+  useEffect(() => {
+    if (state === "team_created_games_scheduled" && games) {
+      setCurrentState(homeState.TEAM_CREATED_GAMES_SCHEDULED);
+      console.log('Game data in Home.jsx:', games)
+      const unsubscribe = onSnapshot(doc(db, 'games', games.gameId), (docSnapshot) => {
+        const { AttendingUsers } = docSnapshot.data();
+      // Update state with the length of the AttendingUsers array to show how many players are attending
+      setNumOfPlayersAttending(AttendingUsers.length);
+      });
+      return () => unsubscribe();
+    }
+  }, [state, games]);
+  
+
+
   const handleResponse = (response) => {
     console.log("function called");
     if(responded === false) {
