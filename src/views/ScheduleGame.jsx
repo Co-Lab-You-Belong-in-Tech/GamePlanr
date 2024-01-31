@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import backButton from "../assets/LeftButton.png";
 import { useTeam } from '../context/TeamContext';
+import { useGames } from "../context/GamesContext";
 
 const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
   <button
@@ -28,6 +29,7 @@ const ScheduleGame = () => {
   const [opponent, setOpponent] = useState("");
   const [notes, setNotes] = useState("");
   const { team } = useTeam();
+  const { updateGames } = useGames()
 
   const navigate = useNavigate();
 
@@ -47,8 +49,15 @@ const ScheduleGame = () => {
         opponent,
         notes,
       };
-      await createGameInDatabase(gameData);
-      console.log('Game scheduled successfully');
+      // Create game in Database and get id for game just created
+      const gameId = await createGameInDatabase(gameData);
+      // Add the gameId to the gameData object
+      gameData.gameId = gameId;
+      console.log('Game scheduled successfully', gameData);
+      // Set the GamesContext
+      updateGames(gameData)
+      // Navigate back to Home Screen
+      navigate(`/home?state=team_created_games_scheduled`);
     } catch (error) {
       console.error('Error scheduling game:', error);
     }
