@@ -93,7 +93,7 @@ const CreateTeam = () => {
         return (
           <>
             {chooseIcon ? (
-              <div className="gameplanr-container">
+              <div className="gameplanr-container pb-0 pt-3 px-3">
                 <div className="d-flex justify-content-between">
                   <img
                     src={backButton}
@@ -110,8 +110,8 @@ const CreateTeam = () => {
                   Choose an icon to display your team&apos;s style
                 </p>
                 <div className="container ps-0">
-                  <div className="row">
-                    <div className="col m-2">
+                  <div className="row mx-auto">
+                    <div className="col text-center m-1" style={{ maxWidth: "96px"}}>
                       <img
                         src={teamPhoto}
                         className="img-btn"
@@ -119,7 +119,7 @@ const CreateTeam = () => {
                         onClick={() => handleIconPick(teamPhoto)}
                       />
                     </div>
-                    <div className="col m-2">
+                    <div className="col text-center m-1" style={{ maxWidth: "96px"}}>
                       <img
                         src={redIcon}
                         className="img-btn"
@@ -127,7 +127,7 @@ const CreateTeam = () => {
                         onClick={() => handleIconPick(redIcon)}
                       />
                     </div>
-                    <div className="col m-2">
+                    <div className="col text-center m-1" style={{ maxWidth: "96px"}}>
                       <img
                         src={blueIcon}
                         className="img-btn"
@@ -135,7 +135,7 @@ const CreateTeam = () => {
                         onClick={() => handleIconPick(blueIcon)}
                       />
                     </div>
-                    <div className="col m-2">
+                    <div className="col text-center m-1" style={{ maxWidth: "96px"}}>
                       <img
                         src={orangeIcon}
                         className="img-btn"
@@ -143,7 +143,7 @@ const CreateTeam = () => {
                         onClick={() => handleIconPick(orangeIcon)}
                       />
                     </div>
-                    <div className="col m-2">
+                    <div className="col text-center m-1" style={{ maxWidth: "96px"}}>
                       <img
                         src={yellowIcon}
                         className="img-btn"
@@ -151,7 +151,7 @@ const CreateTeam = () => {
                         onClick={() => handleIconPick(yellowIcon)}
                       />
                     </div>
-                    <div className="col m-2">
+                    <div className="col text-center m-1" style={{ maxWidth: "96px"}}>
                       <img
                         src={greenIcon}
                         className="img-btn"
@@ -163,7 +163,7 @@ const CreateTeam = () => {
                 </div>
               </div>
             ) : (
-              <div className="gameplanr-container">
+              <div className="gameplanr-container pb-0 py-4 px-2">
                 <div className="d-flex justify-content-between">
                   <p className="me-2"></p>
                   <p className="">Create a Team</p>
@@ -179,7 +179,7 @@ const CreateTeam = () => {
                 <p className="">
                   Name your team and tell us a bit about your squad
                 </p>
-                <div className="icon-container d-flex justify-content-center my-3">
+                <div className="icon-container d-flex justify-content-center py-2 my-3">
                   <img
                     src={chosenIcon}
                     alt="Team Photo"
@@ -192,13 +192,17 @@ const CreateTeam = () => {
                     onClick={() => edit(true)}
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mb-3 py-2">
                   <label htmlFor="teamNameInput" className="form-label">
-                    Team Name
+                    Team Name{" "}
+                    <span className="fw-bold" style={{ color: "#595859" }}>
+                      (required)
+                    </span>
                   </label>
                   <input
                     type="text"
                     className="form-control"
+                    placeholder="Enter name"
                     value={teamName}
                     onChange={(event) => setTeamName(event.target.value)}
                   />
@@ -210,6 +214,7 @@ const CreateTeam = () => {
                   <textarea
                     className="form-control"
                     id="teamDescTextarea"
+                    placeholder="Describe your team"
                     value={teamDesc}
                     onChange={(event) => setTeamDesc(event.target.value)}
                     rows="3"
@@ -217,14 +222,14 @@ const CreateTeam = () => {
                 </div>
                 {(teamName.length > 0) & (teamDesc.length > 0) ? (
                   <button
-                    className="btn btn-primary btn-lg full-width-button"
+                    className="btn btn-primary btn-lg full-width-button my-5"
                     onClick={handleNext}
                   >
                     Create Team
                   </button>
                 ) : (
                   <button
-                    className="btn btn-light btn-lg full-width-button"
+                    className="btn btn-light btn-lg full-width-button my-5"
                     onClick={handleNext}
                     disabled
                   >
@@ -237,7 +242,7 @@ const CreateTeam = () => {
         );
       case steps.INVITE_FRIENDS:
         return (
-          <div className="gameplanr-container">
+          <div className="gameplanr-container px-2 pt-3">
             <div className="d-flex justify-content-between">
               <p className="me-2"></p>
               <p className="">Invite your Friends</p>
@@ -259,33 +264,36 @@ const CreateTeam = () => {
               <div className="gradient-border">
                 <input
                   value={teamInfo.Team_Code}
-                  className="mx-auto text-center px-5 py-4"
+                  
+                  className="mx-auto text-center fw-bold fs-1 px-5 py-5"
                   readOnly
                 />
               </div>
               <div className="row justify-content-center mt-4">
-                <div className="col-4 fs-4" style={{ color: "#445b9f" }}>
-                  <button onClick={handleCopyCode} style={{ border: "none", background: "none", cursor: "pointer" }}>
-                    <img src={copyIcon} alt="Copy Code Button" /> Copy Code
-                  </button>
-                  {copied && <span style={{ marginLeft: "5px" }}>Copied!</span>} {/* Display "Copied!" when copied state is true */}
-                </div>
+                <p
+                  className="col-4 fs-4"
+                  style={{ color: "#445b9f", cursor: "pointer" }}
+                  onClick={handleCopyCode}
+                >
+                  <img src={copyIcon} alt="Copy Code Button" /> Copy Code
+                </p>
+                {copied && (
+                  <span style={{ marginLeft: "5px", color: "#445b9f" }}>
+                    Copied!
+                  </span>
+                )}{" "}
+                {/* Display "Copied!" when copied state is true */}
                 <p className="col-4 fs-4" style={{ color: "#445b9f" }}>
-                  <img
-                    src={shareIcon}
-                    alt="Share code Button"
-                  />{" "}
-                  Share Code
+                  <img src={shareIcon} alt="Share code Button" /> Share Code
                 </p>
               </div>
             </div>
 
-            <Link
-              to="/schedule-game"
-              className="btn btn-primary btn-lg full-width-button"
-            >
-              Next
-            </Link>
+            <div className="container-fluid" style={{bottom: "0", position: "fixed", width: "400px"}}>
+              <Link to="/schedule-game" className="btn btn-primary btn-lg me-5 mb-3">
+                Next
+              </Link>
+            </div>
           </div>
         );
       default:

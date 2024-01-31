@@ -55,17 +55,20 @@ footer .welcome a {
 
 .full-width-button {
     width: 100%;
+    margin: auto;
     margin-bottom: 10px; 
 }
 .home-footer {
+  
+    background-color: #E5FF9C;
   position: fixed;
   bottom: 0;
 }
 .install-instructions {
-    background-color: #E5FF9C;
-    width: 100%;
+    max-width: 400px;
     padding: 20px;
     margin-top: 20px;
+    margin: auto;
 }
 
 .bottom-navbar {
@@ -80,7 +83,7 @@ footer .welcome a {
 .gameplanr-container {
     max-width: 400px;
     margin: auto;
-    padding-top: 50px; 
+    padding-bottom: 50px;
 }
 
 .team-icon {

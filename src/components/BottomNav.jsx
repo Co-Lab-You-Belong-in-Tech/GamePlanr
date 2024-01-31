@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const BottomNav = () => {
   return (
     <>
-      <div className="bottom-navbar navbar-light">
+      <div className="bottom-navbar navbar-light" style={{backgroundColor: "white"}}>
         <div className="container-fluid">
           <div className="row justify-content-between p-1">
             <div className="col column">

@@ -71,7 +71,7 @@ const ScheduleGame = () => {
 
 
   return (
-    <div className="gameplanr-container">
+    <div className="gameplanr-container pb-1 px-2 pt-3">
       <div className="d-flex justify-content-between">
         <img
           src={backButton}
@@ -126,7 +126,11 @@ const ScheduleGame = () => {
                 value="20 min"
                 onChange={(e) => setDuration(e.target.value)}
               />
-              <label className="btn btn-info fs-4 px-4" htmlFor="option1">
+              <label
+                className="btn btn-info fs-4 px-4"
+                htmlFor="option1"
+                style={{ height: "48px", paddingTop: "12px", width: "105px" }}
+              >
                 20 min
               </label>
             </div>
@@ -139,7 +143,11 @@ const ScheduleGame = () => {
                 value="30 min"
                 onChange={(e) => setDuration(e.target.value)}
               />
-              <label className="btn btn-info fs-4 px-4" htmlFor="option2">
+              <label
+                className="btn btn-info fs-4 px-4"
+                htmlFor="option2"
+                style={{ height: "48px", paddingTop: "12px", width: "105px" }}
+              >
                 30 min
               </label>
             </div>
@@ -152,7 +160,11 @@ const ScheduleGame = () => {
                 value="45 min"
                 onChange={(e) => setDuration(e.target.value)}
               />
-              <label className="btn btn-info fs-4 px-4" htmlFor="option3">
+              <label
+                className="btn btn-info fs-4 px-4"
+                htmlFor="option3"
+                style={{ height: "48px", paddingTop: "12px", width: "105px" }}
+              >
                 45 min
               </label>
             </div>
@@ -165,7 +177,11 @@ const ScheduleGame = () => {
                 value="60 min"
                 onChange={(e) => setDuration(e.target.value)}
               />
-              <label className="btn btn-info fs-4 px-4" htmlFor="option4">
+              <label
+                className="btn btn-info fs-4 px-4"
+                htmlFor="option4"
+                style={{ height: "48px", paddingTop: "12px", width: "105px" }}
+              >
                 60 min
               </label>
             </div>
@@ -178,7 +194,11 @@ const ScheduleGame = () => {
                 value="90min"
                 onChange={(e) => setDuration(e.target.value)}
               />
-              <label className="btn btn-info fs-4 px-4" htmlFor="option5">
+              <label
+                className="btn btn-info fs-4 px-4"
+                htmlFor="option5"
+                style={{ height: "48px", paddingTop: "12px", width: "105px" }}
+              >
                 90 min
               </label>
             </div>
@@ -194,7 +214,7 @@ const ScheduleGame = () => {
               <label
                 className="btn btn-info fs-4 px-3"
                 htmlFor="option6"
-                style={{ width: "95px", height: "36px" }}
+                style={{ height: "48px", paddingTop: "12px", width: "105px" }}
               >
                 120 min
               </label>
@@ -261,7 +281,7 @@ const ScheduleGame = () => {
           <button
             className="btn btn-primary my-4 btn-lg full-width-button"
             type="submit"
-            onClick={ handleScheduleGame }
+            onClick={handleScheduleGame}
           >
             Next
           </button>

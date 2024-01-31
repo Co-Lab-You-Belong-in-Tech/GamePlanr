@@ -79,19 +79,19 @@ const Home = () => {
           <Navbar />
         </header>
         <main>
-          <div className="container text-center">
-            <h2 className="fs-2 fw-bold mt-5">
+          <div className="container">
+            <h2 className="fs-2 fw-bold mt-5 text-center">
               Welcome, User <img src={handwave} alt="handwave" />
             </h2>
+          </div>
+
+          <div className="gameplanr-container action-buttons px-2">
             <p className="fs-3 fw-bold mt-3 mb-0">
               Ready to Elevate Your Game?
             </p>
             <p className="pt-1">
               Create or join a team to dive into the action
             </p>
-          </div>
-
-          <div className="gameplanr-container action-buttons">
             <Link
               to="/create-team"
               className="btn btn-primary btn-lg full-width-button"
@@ -108,16 +108,18 @@ const Home = () => {
         </main>
 
         <footer className="home-footer container-fluid px-0">
-          <div className="install-instructions text-center">
+          <div className="install-instructions">
             <p className="fs-3 fw-bold">Enjoy GamePlanr to the fullest</p>
             <p>
               Install GamePlanr on your homescreen for quick and easy access
               when you&apos;re on the go!
             </p>
-            <p className="fs-4 fw-medium">
-              Just tap <img src={safarishare} alt="Safari Share Icon" /> then
-              &apos;Add to Home Screen&apos;
-            </p>
+            <div className="text-center">
+              <p className="fs-4 fw-medium">
+                Just tap <img src={safarishare} alt="Safari Share Icon" /> then
+                &apos;Add to Home Screen&apos;
+              </p>
+            </div>
           </div>
           <BottomNav />
         </footer>
@@ -239,7 +241,7 @@ const Home = () => {
         </main>
 
         <footer className="home-footer container-fluid px-0">
-          <div className="install-instructions text-center">
+          <div className="install-instructions">
             <p className="fs-3 fw-bold">Enjoy GamePlanr to the fullest</p>
             <p>
               Install GamePlanr on your homescreen for quick and easy access
