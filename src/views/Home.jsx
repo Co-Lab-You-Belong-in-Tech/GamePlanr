@@ -72,13 +72,19 @@ const Home = () => {
     const formattedDate = date.toLocaleDateString('en-US', options);
     
     // Split the formatted date into day and date parts
-    const [dayOfWeek, dayOfMonth] = formattedDate.split(' ');
+    const [dayOfMonth, dayOfWeek] = formattedDate.split(' ');
 
     // Capitalize all three letters of the day of the week
     const capitalizedDayOfWeek = dayOfWeek.toUpperCase();
     
     // Return the formatted date with the day of the week and date parts switched
-    return `${dayOfMonth} ${capitalizedDayOfWeek}`;
+    return (
+      <div>
+        <span>{capitalizedDayOfWeek}</span>
+        <br />
+        <span>{dayOfMonth}</span>
+      </div>
+    );
   };
   
 
@@ -96,8 +102,8 @@ const Home = () => {
     endTime.setMinutes(endTime.getMinutes() + durationInMinutes);
   
     // Format start and end times
-    const formattedStartTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const formattedEndTime = endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const formattedStartTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/^0(\d)/, '$1');
+    const formattedEndTime = endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/^0(\d)/, '$1');
   
     // Return the formatted start and end times
     return `${formattedStartTime} - ${formattedEndTime}`;
