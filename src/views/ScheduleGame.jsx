@@ -39,6 +39,10 @@ const ScheduleGame = () => {
 
   const handleScheduleGame = async () => {
     try {
+      const defaultValues = {
+        AttendingUsers: [],
+        Notifications: [],
+      };
       // Create game object with form data
       const gameData = {
         TeamCode: team.Team_Code,
@@ -48,6 +52,7 @@ const ScheduleGame = () => {
         playersNeeded,
         opponent,
         notes,
+        ...defaultValues,
       };
       // Create game in Database and get id for game just created
       const gameId = await createGameInDatabase(gameData);
