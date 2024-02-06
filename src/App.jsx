@@ -24,7 +24,7 @@ function App() {
           <GamesProvider>
             <BrowserRouter>
               <Routes>
-                <Route element={<PrivateRoutes />} >
+                <Route element={<PrivateRoutes />}>
                   <Route path="register" element={<Register />} />
                   <Route path="home" element={<Home />} />
                   <Route path="join-team" element={<JoinTeam />} />
