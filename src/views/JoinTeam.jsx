@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import teamIcon from "../assets/TeamIcon.png";
+import { Link, useNavigate } from "react-router-dom";
+// import teamIcon from "../assets/TeamIcon.png";
 import membersIcon from "../assets/members-icon.png";
-import navbtn5 from "../assets/navbtn5.png";
+// import navbtn5 from "../assets/navbtn5.png";
+import { getTeamByCode, joinTeam } from "../services/TeamService"
+import { useUserProfile } from "../context/UserProfileContext";
+import { useTeam } from '../context/TeamContext';
 
 const JoinTeam = () => {
 
@@ -13,11 +16,37 @@ const JoinTeam = () => {
 
 
   const [code, setCode] = useState("");
+  let [teamData, setTeamData] = useState(null);
   const [currentStep, setCurrentStep] = useState(steps.START);
+  const { userProfile } = useUserProfile();
+  const { updateTeam } = useTeam();
+  const navigate = useNavigate();
+
+
 
   const handleNext = async () => {
     if (currentStep === steps.START) {
-      setCurrentStep(steps.CONFIRM_TEAM);
+      if (code) {
+        const teamData = await getTeamByCode(code);
+        if (teamData) {
+          setTeamData(teamData);
+          console.log('team', teamData)
+          setCurrentStep(steps.CONFIRM_TEAM);
+        } else {
+          console.log("Team not found!");
+        }
+      }
+    }
+  };
+
+  const handleJoinTeam = async () => {
+    if (teamData) {
+      console.log('WHAT', teamData.Team_Code, userProfile.userID)
+      teamData = await joinTeam(teamData.Team_Code, userProfile.userID); 
+      updateTeam(teamData);
+      console.log('Joined team', teamData)
+      console.log("Joined team successfully!");
+      navigate('/team')
     }
   };
 
@@ -90,22 +119,21 @@ const JoinTeam = () => {
                   <div className="card-body">
                     <div className="d-flex align-items-center mb-2 justify-content-center">
                       <img
-                        src={teamIcon}
+                        src={teamData.Team_Icon}
                         alt="Team Logo"
                         className="me-2 team-logo"
                         style={{ width: "30px" }}
                       />
                       <h5 className="card-title mb-0 fs-2 fw-bold">
-                        The Rockets
+                        {teamData.Team_Name}
                       </h5>
                     </div>
                     <p className="card-text fs-4">
-                      We are a co-ed team that loves to play for fun. We accept
-                      those at all skill levels!
+                      {teamData.Team_Description}
                     </p>
                     <div className="d-flex align-items-center">
                       <img src={membersIcon} alt="Members Logo" />
-                      <span>1 Member</span>
+                      <span>{teamData.membersCount} Members</span>
                     </div>
                     <div
                       style={{
@@ -116,25 +144,23 @@ const JoinTeam = () => {
                         gap: "8px",
                       }}
                     >
-                      <span>Organized by:</span>
-                      <img src={navbtn5} alt="" />
+                      <span>Organized by: {teamData.captainDisplayName}</span>
+                      <img src={teamData.captainPhotoURL} alt="" />
                       <div style={{}}></div>
                     </div>
                   </div>
                 </div>
-
                 <div
                   className="container-fluid"
                   style={{ bottom: "0", position: "fixed", width: "400px" }}
                 >
-                    <Link
-                    to="/team"
-                      className="btn btn-primary btn-lg me-5 mb-3"
-                      style={{ width: "343px" }}
-                    >
-                      Join Team
-                    </Link>
-                  
+                  <button
+                    className="btn btn-primary btn-lg me-5 mb-3"
+                    style={{ width: "343px" }}
+                    onClick={handleJoinTeam}
+                  >
+                    Join Team
+                  </button>
                 </div>
               </div>
             </div>

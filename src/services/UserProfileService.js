@@ -11,7 +11,6 @@ export const getUserProfileDetails = async (email) => {
   // If data found, pull in user profile info from database
   if (!userSnapshot.empty) {
     const userDoc = userSnapshot.docs[0];
-    console.log('User ID', userDoc.id)
     // Add userDoc.id into the userProfileData to have one complete userProfile object
     const userProfileData = { ...userDoc.data(), userID: userDoc.id };
     return userProfileData
@@ -22,6 +21,7 @@ export const getUserProfileDetails = async (email) => {
 // Authenticate User and update user profile context
 export const createOrRetrieveUser = async (result) => {
   try {
+    
     const { displayName, email, photoURL } = result.user;
 
     let userProfile = await getUserProfileDetails(email);
@@ -64,7 +64,6 @@ export const googleAuthenticate = async () => {
     // Get Google Sign In via signInWithPopup
     const result = await signInWithPopup(auth, provider);
     const userProfileDetails = await createOrRetrieveUser(result);
-    console.log('SignUporSignIn', userProfileDetails)
     return userProfileDetails;
   } catch (error) {
     alert(`Error during authentication`, error);
