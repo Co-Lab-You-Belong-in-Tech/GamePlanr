@@ -17,7 +17,6 @@ const Welcome = () => {
   const handleGoogleAuthenticate = async () => {
     const userProfileDetails = await googleAuthenticate();
     updateUserProfile(userProfileDetails)
-    console.log("handleGoogleAuthenticate", userProfileDetails)
     navigate('/home');
   }
 
