@@ -6,11 +6,26 @@ import navbtn5 from "../assets/navbtn5.png";
 import copyIcon from "../assets/copyIcon.png";
 import shareIcon from "../assets/shareIcon.png";
 import BottomNav from "../components/BottomNav";
+import { useTeam } from '../context/TeamContext';
+import { useUserProfile } from "../context/UserProfileContext";
+// import { getAllTeamData } from "../services/TeamService"
+
+
+
 
 
 const Team = () => {
   const [inviteFriends, setInviteFriends] = useState(false)
-  console.log(inviteFriends)
+  const { team } = useTeam();
+  // const { userProfile } = useUserProfile();
+  console.log(team)
+
+
+  // console.log(inviteFriends)
+  // handleGetAllTeamData = async () => {}
+  //   const teamData = await getAllTeamData(userProfile.Team_Code);
+  //   console.log(teamData)
+  // }
   return (
     <>
       {inviteFriends ? (
@@ -64,18 +79,17 @@ const Team = () => {
                 <div className="card-body">
                   <div className="d-flex align-items-center mb-2 justify-content-center">
                     <img
-                      src={teamIcon}
+                      src={team.Team_Icon}
                       alt="Team Logo"
                       className="me-2 team-logo"
                       style={{ width: "30px" }}
                     />
                     <h5 className="card-title mb-0 fs-2 fw-bold">
-                      The Rockets
+                      {team.Team_Name}
                     </h5>
                   </div>
                   <p className="card-text fs-4">
-                    We are a co-ed team that loves to play for fun. We accept
-                    those at all skill levels!
+                    {team.Team_Description}
                   </p>
                   <div className="d-flex align-items-center">
                     <img src={membersIcon} alt="Members Logo" />

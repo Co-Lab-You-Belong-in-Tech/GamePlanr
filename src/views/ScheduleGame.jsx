@@ -29,7 +29,7 @@ const ScheduleGame = () => {
   const [opponent, setOpponent] = useState("");
   const [notes, setNotes] = useState("");
   const { team } = useTeam();
-  const { updateGames } = useGames()
+  const { games, updateGames } = useGames()
 
   const navigate = useNavigate();
 
@@ -39,6 +39,7 @@ const ScheduleGame = () => {
 
   const handleScheduleGame = async () => {
     try {
+      console.log('before', games)
       const defaultValues = {
         AttendingUsers: [],
         Notifications: [],
@@ -58,11 +59,10 @@ const ScheduleGame = () => {
       const gameId = await createGameInDatabase(gameData);
       // Add the gameId to the gameData object
       gameData.gameId = gameId;
-      console.log('Game scheduled successfully', gameData);
       // Set the GamesContext
       updateGames(gameData)
       // Navigate back to Home Screen
-      navigate(`/home?state=team_created_games_scheduled`);
+      navigate('/home');
     } catch (error) {
       console.error('Error scheduling game:', error);
     }

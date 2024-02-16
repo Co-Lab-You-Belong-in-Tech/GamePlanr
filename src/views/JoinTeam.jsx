@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import teamIcon from "../assets/TeamIcon.png";
 import membersIcon from "../assets/members-icon.png";
-// import navbtn5 from "../assets/navbtn5.png";
 import { getTeamByCode, joinTeam } from "../services/TeamService"
 import { useUserProfile } from "../context/UserProfileContext";
 import { useTeam } from '../context/TeamContext';
+import { useGames } from "../context/GamesContext";
+import { getGamesData } from "../services/GamesService";
 
 const JoinTeam = () => {
 
@@ -18,8 +18,9 @@ const JoinTeam = () => {
   const [code, setCode] = useState("");
   let [teamData, setTeamData] = useState(null);
   const [currentStep, setCurrentStep] = useState(steps.START);
-  const { userProfile } = useUserProfile();
+  const { userProfile, updateUserProfile } = useUserProfile();
   const { updateTeam } = useTeam();
+  const { updateGames } = useGames();
   const navigate = useNavigate();
 
 
@@ -30,7 +31,6 @@ const JoinTeam = () => {
         const teamData = await getTeamByCode(code);
         if (teamData) {
           setTeamData(teamData);
-          console.log('team', teamData)
           setCurrentStep(steps.CONFIRM_TEAM);
         } else {
           console.log("Team not found!");
@@ -41,11 +41,17 @@ const JoinTeam = () => {
 
   const handleJoinTeam = async () => {
     if (teamData) {
-      console.log('WHAT', teamData.Team_Code, userProfile.userID)
+      const updatedUserProfile = { ...userProfile, Team_Code: teamData.Team_Code };
+      updateUserProfile(updatedUserProfile);
+
       teamData = await joinTeam(teamData.Team_Code, userProfile.userID); 
       updateTeam(teamData);
-      console.log('Joined team', teamData)
-      console.log("Joined team successfully!");
+      
+      // Fetch games data only if teamData's Games array is greater than 0
+      if (teamData.Games.length > 0) {
+        const gamesData = await getGamesData(updatedUserProfile.Team_Code);
+        updateGames(gamesData);
+      }
       navigate('/team')
     }
   };
