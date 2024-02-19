@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useUserProfile } from "../context/UserProfileContext";
 import { createTeam } from '../services/TeamService';
@@ -32,11 +32,6 @@ const CreateTeam = () => {
   const { userProfile } = useUserProfile();
   const { updateTeam } = useTeam();
 
-  
-  console.log("User Profile from Context:", userProfile, userProfile.userID);
-  
-  // console.log("Team Profile from Context:", team);
-
 
   const handleNext = async () => {
     if (currentStep === steps.START) {
@@ -51,12 +46,6 @@ const CreateTeam = () => {
     } 
   };
 
-  // const handleBack = () => {
-  //   if (currentStep === steps.INVITE_FRIENDS) {
-  //     setCurrentStep(steps.START);
-  //   }
-  // };
-
   const edit = (editState) => {
     setChooseIcon(editState)
   }
@@ -69,7 +58,6 @@ const CreateTeam = () => {
   const handleCreateTeam = async (teamCaptain) => {
     try {
       const newTeamInfo = await createTeam(teamCaptain, teamName, teamDesc, chosenIcon);
-      console.log('NewTeamInfo: ', newTeamInfo)
       return newTeamInfo
     } catch (error) {
       console.error('Error creating team:', error);

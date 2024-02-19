@@ -35,7 +35,7 @@ export const createOrRetrieveUser = async (result) => {
         Bio: "",
         Position: "",
         Games_Played: 0,
-        Team_ID: "",
+        Team_Code: "",
         Notifications: []
       };
 

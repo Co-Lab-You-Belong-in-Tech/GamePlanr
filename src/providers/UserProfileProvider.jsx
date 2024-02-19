@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import UserProfileContext from '../context/UserProfileContext';
 
 const UserProfileProvider = ({ children }) => {

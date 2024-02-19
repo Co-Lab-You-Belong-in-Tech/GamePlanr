@@ -1,6 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { googleAuthenticate } from "../services/UserProfileService";
 import { useUserProfile } from "../context/UserProfileContext";
+import { useTeam } from "../context/TeamContext";
+import { useGames } from "../context/GamesContext";
+import { getTeamByCode } from "../services/TeamService";
+import { getGamesData } from "../services/GamesService";
 import Navbar from "../components/Navbar";
 import googleIconImage from "../assets/Left-icon-wrapper.png";
 import image1 from "../assets/Images.png";
@@ -12,11 +16,30 @@ import FB from "../assets/FB.png";
 
 const Welcome = () => {
   const { updateUserProfile } = useUserProfile();
+  const { updateTeam } = useTeam();
+  const { updateGames } = useGames();
   const navigate = useNavigate()
 
   const handleGoogleAuthenticate = async () => {
     const userProfileDetails = await googleAuthenticate();
     updateUserProfile(userProfileDetails)
+    
+    if (userProfileDetails.Team_Code) {
+      try {
+        // Fetch team data using the user's Team_Code
+        const teamData = await getTeamByCode(userProfileDetails.Team_Code);
+        // Update teamContext with fetched teamData
+        updateTeam(teamData);
+        
+        // Fetch games data only if teamData's Games array is greater than 0
+        if (teamData.Games.length > 0) {
+          const gamesData = await getGamesData(userProfileDetails.Team_Code);
+          updateGames(gamesData);
+        }
+      } catch (error) {
+        console.error('Error fetching team data:', error);
+      }
+    }
     navigate('/home');
   }
 
@@ -28,7 +51,7 @@ const Welcome = () => {
           <div className="col-12 px-0">
             <h1 className="py-3 m-4 fw-bold fs-1">Welcome to GamePlanr</h1>
             <p className="">
-              Play smarter, not harder, Enhance your soccer tham management,
+              Play smarter, not harder, Enhance your soccer team management,
               effortlessly organize, and stay connected with your teammates.
             </p>
             <Link
@@ -89,17 +112,17 @@ const Welcome = () => {
             <div className="row-title-and-bod mt-2">
               <h1 className="col-headline m-0">Effortless Team Creation</h1>
               <p className="col-body">
-                Create up your team with streamlined setup, including member
+                Create your team with streamlined setup, including member
                 invitations.
               </p>
             </div>
           </div>
           <div className="main-row my-4">
             <div className="row-title-and-bod mt-2">
-              <h1 className="col-headline m-0">Effortless Team Creation</h1>
+              <h1 className="col-headline m-0">Efficient Game Planning</h1>
               <p className="col-body">
-                Create up your team with streamlined setup, including member
-                invitations.
+                Simplified scheduling for team leaders, specifying game details
+                like time and location.
               </p>
             </div>
             <img
@@ -115,10 +138,10 @@ const Welcome = () => {
               className="row-img"
             />
             <div className="row-title-and-bod mt-2">
-              <h1 className="col-headline m-0">Effortless Team Creation</h1>
+              <h1 className="col-headline m-0">Seamless Communication</h1>
               <p className="col-body">
-                Create up your team with streamlined setup, including member
-                invitations.
+                Effortlessly inform, track attendance, and coordinate your
+                team for every game.
               </p>
             </div>
           </div>

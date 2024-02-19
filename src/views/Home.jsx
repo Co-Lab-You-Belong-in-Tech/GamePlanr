@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import handwave from "../assets/HandWave.png";
 import BottomNav from "../components/BottomNav";
 import safarishare from "../assets/SafariShareIcon.png";
@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from "../services/FirebaseConfig";
 import { useGames } from "../context/GamesContext";
+import { useTeam } from "../context/TeamContext";
 import { useUserProfile } from "../context/UserProfileContext";
 import { updateAttendingUsersInGame } from "../services/GamesService";
 
@@ -23,51 +24,52 @@ const Home = () => {
     TEAM_CREATED_GAMES_SCHEDULED: "team_created_games_scheduled",
     TEAM_CREATED_EMPTY_GAMES: "team_created_empty_games"
   }
-  // const currentState = homeState.TEAM_CREATED_GAMES_SCHEDULED
 
   const [currentState, setCurrentState] = useState(homeState.INITIAL);
   const [responded, setResponded] = useState(false);
   const [going, setGoing] = useState(goingImg);
-  // const [numOfPlayers, setNumOfPlayers] = useState(0)
-  const [numOfPlayersAttending, setNumOfPlayersAttending] = useState(0);
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const state = queryParams.get("state");
-  const { games } = useGames();
-  const { updateGames } = useGames();
+  const { games, updateGames } = useGames();
+  const { team } = useTeam();
   const { userProfile } = useUserProfile();
 
 
-  // RealTime Listener to track attendance by how many players have responded 'Going'
+  
   useEffect(() => {
-    if (state === "team_created_games_scheduled" && games) {
-      setCurrentState(homeState.TEAM_CREATED_GAMES_SCHEDULED);
-      console.log('Game data in Home.jsx:', games)
-      const unsubscribe = onSnapshot(doc(db, 'games', games.gameId), (docSnapshot) => {
-        const { AttendingUsers } = docSnapshot.data();
-
-        // Update state with the length of the AttendingUsers array to show how many players are attending
-        setNumOfPlayersAttending(AttendingUsers.length);
-
-        // Update the games context with the new data
-        updateGames(prevGames => ({
-          ...prevGames,
-          AttendingUsers
-        }));
-        console.log('useEffect', games, updateGames)
-      });
-      return () => unsubscribe();
-    }
-  }, [state]);
-
+    const fetchData = async () => {
+      try {
+        if (team) {
+          if (games && games.length > 0) {
+            setCurrentState(homeState.TEAM_CREATED_GAMES_SCHEDULED);           
+            // RealTime Listener to track attendance by how many players have responded 'Going'
+            const unsubscribe = onSnapshot(doc(db, 'games', games[0]?.gameId), (docSnapshot) => {        
+              // Ensure gameId is retained
+              const gameId = docSnapshot.id;
+              const updatedGame = { ...docSnapshot.data(), gameId };
+              updateGames(updatedGame)
+            });
+            return () => unsubscribe();
+          } else {
+            setCurrentState(homeState.TEAM_CREATED_EMPTY_GAMES);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching or updating game data:', error);
+      }
+    };
+    fetchData();
+  }, [team]);
+   
 
   // Format of players attending / players needed for game
-  const playersAttendingDisplay = `${numOfPlayersAttending}/${games ? games.playersNeeded : "Loading..."} Going`;
-
+  const getPlayersAttendingDisplay = (game) => {
+    if (!game) return "";
+    return `${game.AttendingUsers.length}/${game.playersNeeded} Going`;
+  };
 
   // Format date from Games Context to get Mon Day for display in game data
   const formatDate = (date) => {
     if (!date) return "";
+
     const options = { weekday: 'short', day: '2-digit' };
     const formattedDate = date.toLocaleDateString('en-US', options);
     
@@ -112,7 +114,6 @@ const Home = () => {
 
   const updateAttendingUsers = async (gameId, userId, response) => {
     try {
-      console.log('whoop!', gameId, userId);
       if (response === "going") {
         // If the user responded as Going we add their userId to Firebase AttendingUsers array
         await updateAttendingUsersInGame(gameId, userId, "going");
@@ -129,15 +130,15 @@ const Home = () => {
 
   
   // Handle undo of responding 'Going' or 'Not Going'
-  const undoResponse = () => {
-    console.log("function called");
-    // If response was 'Going' we need to remove userId from Firebase AttendingUsers array
-    if (going === goingGreen && games && userProfile){
-      updateAttendingUsersInGame(games.gameId, userProfile.userID, "not going");
+  const undoResponse = (gameId) => {
+    // Check if the user is marked as going in the game
+    const isGoing = games && games.find(game => game.gameId === gameId && game.AttendingUsers.includes(userProfile.userID));
+    if (isGoing && userProfile){
+      updateAttendingUsersInGame(gameId, userProfile.userID, "not going");
     }
     setGoing(goingImg);
     setResponded(false);
-  }
+}
 
 
 
@@ -175,7 +176,6 @@ const Home = () => {
             </Link>
           </div>
         </main>
-
         <footer className="home-footer container-fluid px-0">
           <div className="install-instructions">
             <p className="fs-3 fw-bold">Enjoy GamePlanr to the fullest</p>
@@ -194,7 +194,7 @@ const Home = () => {
         </footer>
       </div>
     );
-  } else if ( currentState === homeState.TEAM_CREATED_GAMES_SCHEDULED){
+  } else if (currentState === homeState.TEAM_CREATED_GAMES_SCHEDULED){
     return (
       <div>
         <header className="container">
@@ -206,78 +206,60 @@ const Home = () => {
               Hey there <img src={handwave} alt="handwave" />
             </h2>
           </div>
-
-          <div className="gameplanr-container action-buttons mt-2">
-            <h3 className="fs-3 fw-bold ms-3">Upcoming Game</h3>
-            <div
-              className="card mb-3 border-0"
-              style={{ maxWidth: "540px", border: "" }}
-            >
-              <div className="row align-items-center g-0">
-                <div className="col-3 text-center">
-                  <h5 className="card-title fs-2 fw-bold text-primary">
-                  {games ? formatDate(games.startDate) : "Loading..."}
-                  </h5>
-                </div>
-                <div className="col-6">
-                  <div className="card-body">
-                    <p>{games ? calculateEndTime(games.startDate, games.duration) : "Loading..."}</p>
-                    <p className="card-text fs-4">
-                      <img
-                        src={locationIcon}
-                        alt="Location Icon"
-                        className="pb-1"
-                      />{" "}
-                      {games ? games.location : "Loading..."}
-                    </p>
+          {/* Iterate over the games array and render each game */}
+          {games && games.map((game, index) => (
+            <div key={index} className="gameplanr-container action-buttons mt-2">
+              <h3 className="fs-3 fw-bold ms-3">Upcoming Game</h3>
+              <div className="card mb-3 border-0" style={{ maxWidth: "540px", border: "" }}>
+                <div className="row align-items-center g-0">
+                  <div className="col-3 text-center">
+                    <h5 className="card-title fs-2 fw-bold text-primary">
+                      {formatDate(game.startDate)}
+                    </h5>
                   </div>
+                  <div className="col-6">
+                    <div className="card-body">
+                      <p>{calculateEndTime(game.startDate, game.duration)}</p>
+                      <p className="card-text fs-4">
+                        <img src={locationIcon} alt="Location Icon" className="pb-1" /> {game.location}
+                      </p>
+                    </div>
+                  </div>
+                  {responded ? (
+                    <div className="col-3">
+                      <img src={going} alt="Undo button" className="img-btn pb-2 ms-3" onClick={() => undoResponse(game.gameId)} />
+                      <p className="fs-4">{getPlayersAttendingDisplay(game)}</p>
+                    </div>
+                  ) : (
+                    <div className="col-3">
+                      <p className="text-primary fs-4 pt-3">You Going?</p>
+                      <p className="fs-4">{getPlayersAttendingDisplay(game)}</p>
+                    </div>
+                  )}
                 </div>
+              </div>
+              <div className="text-center mx-auto" style={{ maxWidth: "275px" }}>
                 {responded ? (
-                  <div
-                    className="col-3"
-                  >
-                    <img
-                      src={going}
-                      alt="Undo button"
-                      className="img-btn pb-2 ms-3"
-                      onClick={() => undoResponse()}
-                    />
-                    <p className="fs-4">{playersAttendingDisplay}</p>
-                  </div>
+                  <div></div>
                 ) : (
-                  <div className="col-3">
-                    <p className="text-primary fs-4 pt-3">You Going?</p>
-                    <p className="fs-4">{playersAttendingDisplay}</p>
+                  <div>
+                    <p className="fw-bold">Are you going to this game?</p>
+                    <div className="container">
+                      <div className="row justify-content-center">
+                        <div className="col-4">
+                          <img src={goingImg} alt="Going button" className="img-btn" onClick={() => updateAttendingUsers(game.gameId, userProfile.userID, "going")} />
+                        </div>
+                        <div className="col-4">
+                          <img src={notGoing} alt="Not going button" className="img-btn" onClick={() => updateAttendingUsers(game.gameId, userProfile.userID, "not going")} />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
             </div>
-            <div className="text-center mx-auto" style={{ maxWidth: "275px" }}>
-              <p className="fw-bold">Are you going to this game?</p>
-              {responded ? (<div></div>):(<div className="container">
-                <div className="row justify-content-center">
-                  <div className="col-4">
-                    <img
-                      src={goingImg}
-                      alt="Going button"
-                      className="img-btn"
-                      onClick={() => updateAttendingUsers(games.gameId, userProfile.userID, "going")}
-                    />
-                  </div>
-                  <div className="col-4">
-                    <img
-                      src={notGoing}
-                      alt="Not going button"
-                      className="img-btn"
-                      onClick={() => updateAttendingUsers(games.gameId, userProfile.userID, "not going")}
-                    />
-                  </div>
-                </div>
-              </div>)}
-            </div>
-          </div>
+          ))}
         </main>
-
         <footer className="home-footer container-fluid px-0">
           <div className="install-instructions text-center">
             <p className="fs-3 fw-bold">Enjoy GamePlanr to the fullest</p>
