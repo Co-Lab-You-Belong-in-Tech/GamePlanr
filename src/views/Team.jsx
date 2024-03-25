@@ -97,7 +97,7 @@ const Team = () => {
                   </div>
                 </div>
               </div>
-              <h3 className="fs-3 fw-bold my-3">Let&apos;s get started!</h3>
+              <h3 className="fs-3 fw-bold my-3">Team Members</h3>
               <div className="container ps-0">
                 <div className="row">
                   <div className="col-4 m-2">
@@ -105,14 +105,15 @@ const Team = () => {
                   </div>
                 </div>
               </div>
-              <button
-                className="btn btn-primary btn-lg full-width-button mt-5"
-                onClick={() => setInviteFriends(true)}
-              >
-                Invite Friends to Join Team
-              </button>
             </div>
           </div>
+          <button
+            className="btn btn-primary btn-lg full-width-button mt-5"
+            style={{maxWidth: "400px", bottom: "0", position: "absolute"}}
+            onClick={() => setInviteFriends(true)}
+          >
+            Invite Friends to Join Team
+          </button>
           <footer className="home-footer container-fluid px-0">
             <BottomNav />
           </footer>

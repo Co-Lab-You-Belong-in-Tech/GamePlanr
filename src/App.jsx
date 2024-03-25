@@ -29,11 +29,11 @@ function App() {
                   <Route path="home" element={<Home />} />
                   <Route path="join-team" element={<JoinTeam />} />
                   <Route path="create-team" element={<CreateTeam />} />
-                  <Route path="team" element={<Team />} />
                   <Route path="upcoming-games" element={<Games />} />
-                  <Route path="schedule-game" element={<ScheduleGame />} />
-                  <Route path="profile" element={<Profile />} />
+                  <Route path="team" element={<Team />} />
                   <Route path="notifications" element={<Notifications />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="schedule-game" element={<ScheduleGame />} />
                 </Route>
                 <Route path="/" element={<Welcome />} />
               </Routes>
