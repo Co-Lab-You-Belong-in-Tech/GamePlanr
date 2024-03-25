@@ -24,16 +24,17 @@ function App() {
           <GamesProvider>
             <BrowserRouter>
               <Routes>
+                <Route path="upcoming-games" element={<Games />} />
+                <Route path="team" element={<Team />} />
+                <Route path="notifications" element={<Notifications />} />
+                <Route path="profile" element={<Profile />} />
                 <Route element={<PrivateRoutes />}>
                   <Route path="register" element={<Register />} />
                   <Route path="home" element={<Home />} />
                   <Route path="join-team" element={<JoinTeam />} />
                   <Route path="create-team" element={<CreateTeam />} />
-                  <Route path="team" element={<Team />} />
-                  <Route path="upcoming-games" element={<Games />} />
+
                   <Route path="schedule-game" element={<ScheduleGame />} />
-                  <Route path="profile" element={<Profile />} />
-                  <Route path="notifications" element={<Notifications />} />
                 </Route>
                 <Route path="/" element={<Welcome />} />
               </Routes>

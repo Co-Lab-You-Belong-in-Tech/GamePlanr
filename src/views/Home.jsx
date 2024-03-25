@@ -149,8 +149,8 @@ const Home = () => {
         </header>
         <main>
           <div className="container">
-            <h2 className="fs-2 fw-bold mt-5 text-center">
-              Welcome, User <img src={handwave} alt="handwave" />
+            <h2 className="fs-2 fw-bold my-5 text-center">
+              Good Afternoon, User <img src={handwave} alt="handwave" />
             </h2>
           </div>
 
@@ -202,8 +202,8 @@ const Home = () => {
         </header>
         <main className="home-main">
           <div className="container text-center">
-            <h2 className="fs-2 fw-bold mt-5">
-              Hey there <img src={handwave} alt="handwave" />
+            <h2 className="fs-2 fw-bold my-5">
+              Good Afternoon, User <img src={handwave} alt="handwave" />
             </h2>
           </div>
 
@@ -216,12 +216,16 @@ const Home = () => {
               <div className="row align-items-center g-0">
                 <div className="col-3 text-center">
                   <h5 className="card-title fs-2 fw-bold text-primary">
-                  {games ? formatDate(games.startDate) : "Loading..."}
+                    {games ? formatDate(games.startDate) : "Loading..."}
                   </h5>
                 </div>
                 <div className="col-6">
                   <div className="card-body">
-                    <p>{games ? calculateEndTime(games.startDate, games.duration) : "Loading..."}</p>
+                    <p>
+                      {games
+                        ? calculateEndTime(games.startDate, games.duration)
+                        : "Loading..."}
+                    </p>
                     <p className="card-text fs-4">
                       <img
                         src={locationIcon}
@@ -233,9 +237,7 @@ const Home = () => {
                   </div>
                 </div>
                 {responded ? (
-                  <div
-                    className="col-3"
-                  >
+                  <div className="col-3">
                     <img
                       src={going}
                       alt="Undo button"
@@ -254,26 +256,42 @@ const Home = () => {
             </div>
             <div className="text-center mx-auto" style={{ maxWidth: "275px" }}>
               <p className="fw-bold">Are you going to this game?</p>
-              {responded ? (<div></div>):(<div className="container">
-                <div className="row justify-content-center">
-                  <div className="col-4">
-                    <img
-                      src={goingImg}
-                      alt="Going button"
-                      className="img-btn"
-                      onClick={() => updateAttendingUsers(games.gameId, userProfile.userID, "going")}
-                    />
-                  </div>
-                  <div className="col-4">
-                    <img
-                      src={notGoing}
-                      alt="Not going button"
-                      className="img-btn"
-                      onClick={() => updateAttendingUsers(games.gameId, userProfile.userID, "not going")}
-                    />
+              {responded ? (
+                <div></div>
+              ) : (
+                <div className="container">
+                  <div className="row justify-content-center">
+                    <div className="col-4">
+                      <img
+                        src={goingImg}
+                        alt="Going button"
+                        className="img-btn"
+                        onClick={() =>
+                          updateAttendingUsers(
+                            games.gameId,
+                            userProfile.userID,
+                            "going"
+                          )
+                        }
+                      />
+                    </div>
+                    <div className="col-4">
+                      <img
+                        src={notGoing}
+                        alt="Not going button"
+                        className="img-btn"
+                        onClick={() =>
+                          updateAttendingUsers(
+                            games.gameId,
+                            userProfile.userID,
+                            "not going"
+                          )
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>)}
+              )}
             </div>
           </div>
         </main>
